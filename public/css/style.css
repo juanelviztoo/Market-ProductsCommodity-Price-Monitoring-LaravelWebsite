@@ -1,6 +1,6 @@
 body {
     background-color: whitesmoke;
-    background-image: url('/storage/background/HD-background5.jpg');
+    background-image: url('/storage/background/HD-background13.jpg');
     background-size: cover;
     /* background-repeat: no-repeat; */
     background-attachment: fixed;
@@ -51,7 +51,7 @@ body {
 /* Style untuk container komoditi */
 .container-komoditi {
     position: sticky;
-    margin-top: 130px;
+    margin-top: 50px;
     top: 12%;
     transform: translateY(-50%);
     left: 50%;
