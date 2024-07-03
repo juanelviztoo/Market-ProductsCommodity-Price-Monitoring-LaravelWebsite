@@ -30,5 +30,19 @@
         </div>
         <button type="submit" class="btn btn-primary">Simpan</button>
     </form>
+
+    <hr>
+
+    <h2>Import Data Komoditi</h2>
+    <form action="{{ route('komoditi.import') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="mb-3">
+            <label for="excel_file" class="form-label">Import File Excel</label>
+            <input type="file" class="form-control" id="excel_file" name="excel_file" required>
+        </div>
+        <button type="submit" class="btn btn-success">Import Data</button>
+    </form>
+</div>
+
 </div>
 @endsection

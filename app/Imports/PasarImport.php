@@ -3,45 +3,44 @@
 namespace App\Imports;
 
 use App\Models\Pasar;
-use Illuminate\Support\Facades\Storage;
+// use Illuminate\Support\Collection;
+// use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithBatchInserts;
-use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
-class PasarImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChunkReading
+class PasarImport implements ToModel, WithHeadingRow
 {
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+    public $rowCount = 0;
+    public $importedPasarNames = [];
+
     public function model(array $row)
     {
-        // Menggunakan timestamp untuk membuat nama file unik
-        $imageName = 'gambar_pasar/' . time() . '_' . $row['gambar_pasar'];
+        $gambar_pasar = null;
+        if (!empty($row['gambar_pasar'])) {
+            $file_name = basename($row['gambar_pasar']);
+            $unique_file_name = Str::random(10) . '_' . $file_name;
 
-        // Pindahkan gambar ke storage
-        if ($row['gambar_pasar']) {
-            Storage::disk('public')->put($imageName, base64_decode($row['gambar_pasar']));
+            $image_content = file_get_contents($row['gambar_pasar']);
+            if ($image_content !== false) {
+                Storage::put('public/gambar_pasar/' . $unique_file_name, $image_content);
+                $gambar_pasar = $unique_file_name;
+            } else {
+                throw new \Exception('Failed to download image: ' . $row['gambar_pasar']);
+            }
         }
+
+        $this->rowCount++;
+        $this->importedPasarNames[] = $row['nama_pasar'];
 
         return new Pasar([
             'provinsi' => $row['provinsi'],
             'kota' => $row['kota'],
             'kode_kota' => $row['kode_kota'],
             'nama_pasar' => $row['nama_pasar'],
-            'gambar_pasar' => $imageName,
+            'gambar_pasar' => $gambar_pasar,
         ]);
-    }
-
-    public function batchSize(): int
-    {
-        return 1000;
-    }
-
-    public function chunkSize(): int
-    {
-        return 1000;
     }
 }

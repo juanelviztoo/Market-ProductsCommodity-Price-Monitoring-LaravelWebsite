@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Exports\PasarExport;
 use App\Imports\PasarImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
 class PasarController extends Controller
@@ -60,9 +61,13 @@ class PasarController extends Controller
         ]);
 
         try {
-            Excel::import(new PasarImport, $request->file('file'));
+            $import = new PasarImport();
+            Excel::import($import, $request->file('file'));
 
-            return redirect()->route('pasar.index')->with('success', 'Pasar Imported Successfully.');
+            $importedPasarNames = implode(', ', $import->importedPasarNames);
+            $message = "{$import->rowCount} Data Pasar {$importedPasarNames} Successfully Imported.";
+
+            return redirect()->route('pasar.index')->with('success', $message);
         } catch (\Exception $e) {
             return redirect()->route('pasar.index')->with('error', 'Error importing data: ' . $e->getMessage());
         }
