@@ -3,7 +3,9 @@
 @section('content')
 <div class="container">
     <h1>Riwayat Harga Komoditi</h1>
+    @if(Auth::user() && Auth::user()->usertype == 'admin')
     <a href="{{ route('riwayat_harga_komoditi.create') }}" class="btn btn-primary mb-3">Tambah Riwayat Harga Komoditi</a>
+    @endif
     <a href="{{ route('riwayat_harga_komoditi.peview') }}" class="btn btn-success mb-3">Preview Data & Export Riwayat Harga Komoditi to Excel</a>
 
     @if(session('success'))
@@ -21,7 +23,9 @@
                 <th>Tanggal Update</th>
                 <th>Harga</th>
                 <th>Status</th>
+                @if(Auth::user() && Auth::user()->usertype == 'admin')
                 <th>Aksi</th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -41,6 +45,7 @@
                             <i class="fas fa-circle text-success"></i> Harga Turun
                         @endif
                     </td>
+                    @if(Auth::user() && Auth::user()->usertype == 'admin')
                     <td>
                         <a href="{{ route('riwayat_harga_komoditi.edit', $riwayat->id) }}" class="btn btn-warning">Edit</a>
                         <form action="{{ route('riwayat_harga_komoditi.destroy', $riwayat->id) }}" method="POST" style="display:inline;">
@@ -49,6 +54,7 @@
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus Riwayat Harga {{ $riwayat->produkKomoditi->nama_produk }} di {{ $riwayat->pasar->nama_pasar }}?')">Delete</button>
                         </form>
                     </td>
+                    @endif
                 </tr>
             @endforeach
         </tbody>

@@ -3,7 +3,9 @@
 @section('content')
 <div class="container">
     <h1>Daftar Pasar</h1>
+    @if(Auth::user() && Auth::user()->usertype == 'admin')
     <a href="{{ route('pasar.create') }}" class="btn btn-primary mb-3">Tambah Pasar</a>
+    @endif
     <a href="{{ route('pasar.preview') }}" class="btn btn-success mb-3">Preview Data & Export Pasar to Excel</a>
 
     @if(session('success'))
@@ -20,7 +22,9 @@
                 <th>Kode Kota</th>
                 <th>Nama Pasar</th>
                 <th>Gambar Pasar</th>
+                @if(Auth::user() && Auth::user()->usertype == 'admin')
                 <th>Aksi</th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -31,6 +35,7 @@
                     <td>{{ $pasar->kode_kota }}</td>
                     <td>{{ $pasar->nama_pasar }}</td>
                     <td><img src="{{ asset('storage/gambar_pasar/' . $pasar->gambar_pasar) }}" alt="{{ $pasar->nama_pasar }}" width="100"></td>
+                    @if(Auth::user() && Auth::user()->usertype == 'admin')
                     <td>
                         <a href="{{ route('pasar.edit', $pasar->id) }}" class="btn btn-warning">Edit</a>
                         <form action="{{ route('pasar.destroy', $pasar->id) }}" method="POST" style="display:inline;">
@@ -39,6 +44,7 @@
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus {{ $pasar->nama_pasar }}?')">Delete</button>
                         </form>
                     </td>
+                    @endif
                 </tr>
             @endforeach
         </tbody>

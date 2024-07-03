@@ -9,9 +9,13 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithDrawings;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Events\AfterSheet;
 
 
-class KomoditiExport implements FromCollection, WithHeadings, WithMapping, WithDrawings, WithColumnWidths
+class KomoditiExport implements FromCollection, WithHeadings, WithMapping, WithDrawings, WithColumnWidths, WithStyles, WithEvents
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -66,6 +70,48 @@ class KomoditiExport implements FromCollection, WithHeadings, WithMapping, WithD
             'A' => 20,
             'B' => 20,
             'C' => 50,
+        ];
+    }
+
+    public function styles(Worksheet $sheet)
+    {
+        return [
+            1 => [
+                'font' => ['bold' => true],
+                'fill' => [
+                    'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                    'startColor' => ['argb' => 'd4d4d8'], 
+                ],
+            ],
+        ];
+    }
+
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class => function (AfterSheet $event) {
+                $sheet = $event->sheet->getDelegate();
+
+                $lastRow = $sheet->getHighestRow();
+                $lastColumn = $sheet->getHighestColumn();
+
+                $styleArray = [
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                            'color' => ['argb' => '000000'],
+                        ],
+                    ],
+                ];
+
+                // Apply borders to all cells with content
+                $sheet->getStyle("A1:{$lastColumn}{$lastRow}")->applyFromArray($styleArray);
+
+                // Auto-size columns
+                foreach (range('A', $lastColumn) as $columnID) {
+                    $sheet->getColumnDimension($columnID)->setAutoSize(true);
+                }
+            },
         ];
     }
 }

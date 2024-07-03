@@ -3,7 +3,9 @@
 @section('content')
 <div class="container">
     <h1>Produk Komoditi</h1>
+    @if(Auth::user() && Auth::user()->usertype == 'admin')
     <a href="{{ route('produk_komoditi.create') }}" class="btn btn-primary mb-3">Tambah Produk Komoditi</a>
+    @endif
     <a href="{{ route('produk_komoditi.preview') }}" class="btn btn-success mb-3">Preview Data & Export Produk Komoditi to Excel</a>
 
     @if(session('success'))
@@ -19,7 +21,9 @@
                 <th>Nama Produk</th>
                 <th>Gambar Produk</th>
                 <th>Satuan</th>
+                @if(Auth::user() && Auth::user()->usertype == 'admin')
                 <th>Aksi</th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -33,6 +37,7 @@
                     @endif
                 </td>
                 <td>{{ $produk->satuan }}</td>
+                @if(Auth::user() && Auth::user()->usertype == 'admin')
                 <td>
                     <a href="{{ route('produk_komoditi.edit', $produk->id) }}" class="btn btn-warning">Edit</a>
                     <form action="{{ route('produk_komoditi.destroy', $produk->id) }}" method="POST" class="d-inline">
@@ -41,6 +46,7 @@
                         <button type="submit" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus produk {{ $produk->nama_produk }}?')">Delete</button>
                     </form>
                 </td>
+                @endif
             </tr>
             @endforeach
         </tbody>
