@@ -3,45 +3,54 @@
 namespace App\Imports;
 
 use App\Models\Pasar;
-use Illuminate\Support\Facades\Storage;
+// use Illuminate\Support\Collection;
+// use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithBatchInserts;
-use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
 
-class PasarImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChunkReading
+class PasarImport implements ToModel, WithHeadingRow
 {
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+    private $importedPasars = [];
+
     public function model(array $row)
     {
-        // Menggunakan timestamp untuk membuat nama file unik
-        $imageName = 'gambar_pasar/' . time() . '_' . $row['gambar_pasar'];
-
-        // Pindahkan gambar ke storage
-        if ($row['gambar_pasar']) {
-            Storage::disk('public')->put($imageName, base64_decode($row['gambar_pasar']));
+        // Download gambar dari URL
+        $imageName = null;
+        if (!empty($row['gambar_pasar'])) {
+            $imageUrl = $row['gambar_pasar'];
+            try {
+                $response = Http::get($imageUrl);
+                if ($response->successful()) {
+                    $imageContents = $response->body();
+                    $imageName = basename($imageUrl);
+                    Storage::put('public/gambar_pasar/' . $imageName, $imageContents);
+                } else {
+                    // Jika gambar tidak dapat diambil, beri nama default
+                    $imageName = 'default.png';
+                }
+            } catch (\Exception $e) {
+                // Jika ada kesalahan saat mengambil gambar, beri nama default
+                $imageName = 'default.png';
+            }
         }
 
-        return new Pasar([
+        $pasar = Pasar::create([
             'provinsi' => $row['provinsi'],
             'kota' => $row['kota'],
             'kode_kota' => $row['kode_kota'],
             'nama_pasar' => $row['nama_pasar'],
             'gambar_pasar' => $imageName,
         ]);
+
+        $this->importedPasars[] = $pasar->nama_pasar;
+
+        return $pasar;
     }
 
-    public function batchSize(): int
+    public function getImportedPasars()
     {
-        return 1000;
-    }
-
-    public function chunkSize(): int
-    {
-        return 1000;
+        return $this->importedPasars;
     }
 }

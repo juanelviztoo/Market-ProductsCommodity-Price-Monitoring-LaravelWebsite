@@ -4,63 +4,65 @@ namespace App\Imports;
 
 use App\Models\ProdukKomoditi;
 use App\Models\Komoditi;
-use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\ToCollection;
+// use Illuminate\Support\Collection;
+// use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\Importable;
-use Maatwebsite\Excel\Concerns\WithValidation;
-use Maatwebsite\Excel\Concerns\WithBatchInserts;
-use Maatwebsite\Excel\Concerns\WithChunkReading;
-use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Concerns\OnEachRow;
+use Maatwebsite\Excel\Row;
+// use Maatwebsite\Excel\Concerns\Importable;
+// use Maatwebsite\Excel\Concerns\WithValidation;
+// use Maatwebsite\Excel\Concerns\WithBatchInserts;
+// use Maatwebsite\Excel\Concerns\WithChunkReading;
+// use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
+use Illuminate\Support\Facades\Http;
 
-class ProdukKomoditiImport implements ToModel, WithHeadingRow, WithValidation, WithBatchInserts, WithChunkReading
+class ProdukKomoditiImport implements OnEachRow, WithHeadingRow
 {
-    use Importable;
-    public function model(array $row)
+    private $rowCount = 0;
+    private $importedNames = [];
+
+    public function onRow(Row $row)
     {
-        // Find komoditi by name
+        $row = $row->toArray();
+
+        // Mengambil id komoditi berdasarkan jenis_komoditi
         $komoditi = Komoditi::where('jenis_komoditi', $row['jenis_komoditi'])->first();
 
         if (!$komoditi) {
-            throw new \Exception('Komoditi with name ' . $row['jenis_komoditi'] . ' not found.');
+            return null;
         }
 
-        // Handle image upload
-        $gambar_produk = null;
-        if (isset($row['gambar_produk']) && !empty($row['gambar_produk'])) {
-            $imageData = $row['gambar_produk'];
-            $imageName = time() . '_' . $row['nama_produk'] . '.png';
-            Storage::put('public/gambar_produk/' . $imageName, base64_decode($imageData));
-            $gambar_produk = $imageName;
+        // Menyimpan gambar produk dari link
+        $gambarProduk = null;
+        if (isset($row['gambar_produk']) && filter_var($row['gambar_produk'], FILTER_VALIDATE_URL)) {
+            $imageContents = file_get_contents($row['gambar_produk']);
+            $imageName = basename(parse_url($row['gambar_produk'], PHP_URL_PATH));
+            Storage::put('public/gambar_produk/' . $imageName, $imageContents);
+            $gambarProduk = $imageName;
         }
 
-        return new ProdukKomoditi([
+        ProdukKomoditi::create([
             'komoditi_id' => $komoditi->id,
             'nama_produk' => $row['nama_produk'],
-            'gambar_produk' => $gambar_produk,
+            'gambar_produk' => $gambarProduk,
             'satuan' => $row['satuan'],
         ]);
+
+        // Meningkatkan jumlah baris yang diimpor
+        $this->rowCount++;
+        // Menambahkan nama produk ke array
+        $this->importedNames[] = $row['nama_produk'];
     }
 
-    public function rules(): array
+    public function getRowCount()
     {
-        return [
-            '*.jenis_komoditi' => ['required', Rule::exists('komoditi', 'jenis_komoditi')],
-            '*.nama_produk' => ['required', 'string'],
-            '*.satuan' => ['required', 'string'],
-        ];
+        return $this->rowCount;
     }
 
-    public function batchSize(): int
+    public function getImportedNames()
     {
-        return 1000;
-    }
-
-    public function chunkSize(): int
-    {
-        return 1000;
+        return $this->importedNames;
     }
 }

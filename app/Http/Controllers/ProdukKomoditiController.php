@@ -59,10 +59,16 @@ class ProdukKomoditiController extends Controller
             'excel_file' => 'required|mimes:xlsx,xls',
         ]);
 
-    try {
-            Excel::import(new ProdukKomoditiImport, $request->file('excel_file'));
+        try {
+            $import = new ProdukKomoditiImport;
+            Excel::import($import, $request->file('excel_file'));
 
-            return redirect()->route('produk_komoditi.index')->with('success', 'Data Produk Komoditi Imported Successfully.');
+            // Menghitung jumlah data yang berhasil diimport
+            $rowCount = $import->getRowCount();
+            $importedNames = implode(', ', $import->getImportedNames());
+
+            $message = "$rowCount Data Produk Komoditi $importedNames Successfully Imported.";
+            return redirect()->route('produk_komoditi.index')->with('success', $message);
         } catch (\Exception $e) {
             return redirect()->route('produk_komoditi.index')->with('error', 'Failed to Import Data Produk Komoditi: ' . $e->getMessage());
         }

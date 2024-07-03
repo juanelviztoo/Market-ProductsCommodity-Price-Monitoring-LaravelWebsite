@@ -55,6 +55,27 @@ class KomoditiController extends Controller
         return redirect()->route('komoditi.index')->with('success', $message);
     }
 
+    public function import(Request $request)
+    {
+        $request->validate([
+            'excel_file' => 'required|mimes:xlsx,xls',
+        ]);
+
+        try {
+            $import = new KomoditiImport;
+            Excel::import($import, $request->file('excel_file'));
+
+            // Menghitung jumlah data yang berhasil diimport
+            $rowCount = $import->getRowCount();
+            $importedJenis = implode(', ', $import->getImportedJenis());
+
+            $message = "$rowCount Data Komoditi $importedJenis Successfully Imported.";
+            return redirect()->route('komoditi.index')->with('success', $message);
+        } catch (\Exception $e) {
+            return redirect()->route('komoditi.index')->with('error', 'Failed to Import Data Komoditi: ' . $e->getMessage());
+        }
+    }
+
     /**
      * Display the specified resource.
      */
