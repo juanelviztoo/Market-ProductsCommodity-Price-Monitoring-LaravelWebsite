@@ -20,13 +20,13 @@ Route::get('/home', function () {
     return view('home');
 })->middleware(['auth', 'verified'])->name('home');
 
-Route::middleware('auth')->group(function () {
-    Route::resource('pasar', PasarController::class)->middleware(['auth', 'admin']);
-    Route::resource('kategori', KategoriController::class)->middleware(['auth', 'admin']);
-    Route::resource('komoditi', KomoditiController::class)->middleware(['auth', 'admin']);
-    Route::resource('riwayat_harga_komoditi', RiwayatHargaKomoditiController::class)->middleware(['auth', 'admin']);
-    Route::resource('produk_komoditi', ProdukKomoditiController::class)->middleware(['auth', 'admin']);
+Route::resource('pasar', PasarController::class);
+Route::resource('kategori', KategoriController::class);
+Route::resource('komoditi', KomoditiController::class);
+Route::resource('riwayat_harga_komoditi', RiwayatHargaKomoditiController::class);
+Route::resource('produk_komoditi', ProdukKomoditiController::class);
 
+Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

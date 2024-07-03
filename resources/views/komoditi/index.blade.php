@@ -3,7 +3,9 @@
 @section('content')
 <div class="container">
     <h1>Daftar Komoditi</h1>
+    @if(Auth::user() && Auth::user()->usertype == 'admin')
     <a href="{{ route('komoditi.create') }}" class="btn btn-primary mb-3">Tambah Komoditi</a>
+    @endif
     <a href="{{ route('komoditi.preview') }}" class="btn btn-success mb-3">Preview Data & Export Komoditi to Excel</a>
 
     @if(session('success'))
@@ -27,6 +29,7 @@
                     <td>{{ $komoditi->kategori->nama_kategori }}</td>
                     <td>{{ $komoditi->jenis_komoditi }}</td>
                     <td><img src="{{ asset('storage/gambar_komoditi/' . $komoditi->gambar_komoditi) }}" alt="{{ $komoditi->jenis_komoditi }}" width="100"></td>
+                    @if(Auth::user() && Auth::user()->usertype == 'admin')
                     <td>
                         <a href="{{ route('komoditi.edit', $komoditi->id) }}" class="btn btn-warning">Edit</a>
                         <form action="{{ route('komoditi.destroy', $komoditi->id) }}" method="POST" style="display:inline;">
@@ -35,6 +38,7 @@
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus komoditi {{ $komoditi->jenis_komoditi }}?')">Delete</button>
                         </form>
                     </td>
+                    @endif
                 </tr>
             @endforeach
         </tbody>

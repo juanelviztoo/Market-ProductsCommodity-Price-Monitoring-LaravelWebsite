@@ -3,7 +3,9 @@
 @section('content')
 <div class="container">
     <h1>Daftar Kategori</h1>
+    @if(Auth::user() && Auth::user()->usertype == 'admin')
     <a href="{{ route('kategori.create') }}" class="btn btn-primary mb-3">Tambah Kategori</a>
+    @endif
     <a href="{{ route('kategori.preview') }}" class="btn btn-success mb-3">Preview Data & Export Kategori to Excel</a>
 
     @if(session('success'))
@@ -23,6 +25,7 @@
             @foreach($kategoris as $kategori)
                 <tr>
                     <td>{{ $kategori->nama_kategori }}</td>
+                    @if(Auth::user() && Auth::user()->usertype == 'admin')
                     <td>
                         <a href="{{ route('kategori.edit', $kategori->id) }}" class="btn btn-warning">Edit</a>
                         <form action="{{ route('kategori.destroy', $kategori->id) }}" method="POST" style="display:inline;">
@@ -31,6 +34,7 @@
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus kategori {{ $kategori->nama_kategori }}?')">Delete</button>
                         </form>
                     </td>
+                    @endif
                 </tr>
             @endforeach
         </tbody>
