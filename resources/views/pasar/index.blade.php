@@ -14,8 +14,8 @@
         <div class="alert alert-danger fade show" role="alert">{{ session('error') }}</div>
     @endif
 
-    <table class="table table-striped table-bordered table-hover">
-        <thead class="thead-light" style="text-align: center;">
+    <table class="table table-light table-striped table-bordered table-hover">
+        <thead class="thead-primary" style="text-align: center;">
             <tr>
                 <th>Provinsi</th>
                 <th>Kota</th>

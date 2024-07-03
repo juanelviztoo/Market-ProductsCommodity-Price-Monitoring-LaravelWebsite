@@ -62,7 +62,7 @@
                 </li> -->
         </div>
     </nav>
-    <div class="container mt-5">
+    <div class="container mt-4">
         @yield('content')
     </div>
     <script src="{{ asset('js/app.js') }}"></script>
