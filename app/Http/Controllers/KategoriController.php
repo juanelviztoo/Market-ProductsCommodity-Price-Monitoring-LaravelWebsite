@@ -15,10 +15,12 @@ class KategoriController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $kategoris = Kategori::all();
-        return view('kategori.index', compact('kategoris'));
+        // Check if the request has a 'view_all' parameter
+        $viewAll = $request->has('view_all');
+        $kategoris = $viewAll ? Kategori::all() : Kategori::paginate(5);
+        return view('kategori.index', compact('kategoris', 'viewAll'));
     }
 
     /**

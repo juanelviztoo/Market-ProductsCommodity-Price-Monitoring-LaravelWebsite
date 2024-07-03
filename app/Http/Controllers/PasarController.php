@@ -13,12 +13,15 @@ use Illuminate\Support\Facades\Storage;
 class PasarController extends Controller
 {
     /**
-     * Display a listing of the resource.
+ * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pasars = Pasar::all();
-        return view('pasar.index', compact('pasars'));
+        // Check if the request has a 'view_all' parameter
+        $viewAll = $request->has('view_all');
+        $pasars = $viewAll ? Pasar::all() : Pasar::paginate(5);
+    
+        return view('pasar.index', compact('pasars', 'viewAll'));
     }
 
     public function create()

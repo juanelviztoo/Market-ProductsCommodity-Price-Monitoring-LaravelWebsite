@@ -15,10 +15,12 @@ class KomoditiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $komoditis = Komoditi::all();
-        return view('komoditi.index', compact('komoditis'));
+        // Check if the request has a 'view_all' parameter
+        $viewAll = $request->has('view_all');
+        $komoditis = $viewAll ? Komoditi::all() : Komoditi::paginate(5);
+        return view('komoditi.index', compact('komoditis', 'viewAll'));
     }
 
     /**

@@ -12,10 +12,12 @@ use Illuminate\Support\Facades\Storage;
 
 class ProdukKomoditiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $produks = ProdukKomoditi::all();
-        return view('produk_komoditi.index', compact('produks'));
+        // Check if the request has a 'view_all' parameter
+        $viewAll = $request->has('view_all');
+        $produks = $viewAll ? ProdukKomoditi::all() : ProdukKomoditi::paginate(5);
+        return view('produk_komoditi.index', compact('produks', 'viewAll'));
     }
 
     public function create()
