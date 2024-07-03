@@ -61,14 +61,11 @@ class PasarController extends Controller
         ]);
 
         try {
-            $import = new PasarImport;
+            $import = new PasarImport();
             Excel::import($import, $request->file('file'));
 
-            $importedPasars = $import->getImportedPasars();
-            $jumlah = count($importedPasars);
-            $namaPasars = implode(', ', $importedPasars);
-
-            $message = "{$jumlah} Data Pasar {$namaPasars} Successfully Imported.";
+            $importedPasarNames = implode(', ', $import->importedPasarNames);
+            $message = "{$import->rowCount} Data Pasar {$importedPasarNames} Successfully Imported.";
 
             return redirect()->route('pasar.index')->with('success', $message);
         } catch (\Exception $e) {
