@@ -22,7 +22,9 @@
                 <th>Kode Kota</th>
                 <th>Nama Pasar</th>
                 <th>Gambar Pasar</th>
+                @if(Auth::user() && Auth::user()->usertype == 'admin')
                 <th>Aksi</th>
+                @endif
             </tr>
         </thead>
         <tbody>

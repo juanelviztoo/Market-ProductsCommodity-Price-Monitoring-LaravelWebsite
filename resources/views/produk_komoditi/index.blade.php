@@ -21,7 +21,9 @@
                 <th>Nama Produk</th>
                 <th>Gambar Produk</th>
                 <th>Satuan</th>
+                @if(Auth::user() && Auth::user()->usertype == 'admin')
                 <th>Aksi</th>
+                @endif
             </tr>
         </thead>
         <tbody>

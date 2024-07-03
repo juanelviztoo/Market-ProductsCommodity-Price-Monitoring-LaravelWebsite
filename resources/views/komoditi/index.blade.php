@@ -20,7 +20,9 @@
                 <th>Nama Kategori</th>
                 <th>Jenis Komoditi</th>
                 <th>Gambar Komoditi</th>
+                @if(Auth::user() && Auth::user()->usertype == 'admin')
                 <th>Aksi</th>
+                @endif
             </tr>
         </thead>
         <tbody>

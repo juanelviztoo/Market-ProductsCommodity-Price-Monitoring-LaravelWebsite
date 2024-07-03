@@ -23,7 +23,9 @@
                 <th>Tanggal Update</th>
                 <th>Harga</th>
                 <th>Status</th>
+                @if(Auth::user() && Auth::user()->usertype == 'admin')
                 <th>Aksi</th>
+                @endif
             </tr>
         </thead>
         <tbody>

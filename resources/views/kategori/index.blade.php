@@ -18,7 +18,9 @@
         <thead class="thead-primary" style="text-align: center;">
             <tr>
                 <th>Nama Kategori</th>
+                @if(Auth::user() && Auth::user()->usertype == 'admin')
                 <th>Aksi</th>
+                @endif
             </tr>
         </thead>
         <tbody>
