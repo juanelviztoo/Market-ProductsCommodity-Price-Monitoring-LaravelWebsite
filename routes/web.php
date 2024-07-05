@@ -9,6 +9,7 @@ use App\Http\Controllers\KomoditiController;
 use App\Http\Controllers\RiwayatHargaKomoditiController;
 use App\Http\Controllers\ProdukKomoditiController;
 
+use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\HomeController;
 
 
@@ -87,6 +88,8 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 route::get('home', [HomeController::class, 'index'])->name('home');
+// Route untuk Developer Profile Page
+Route::get('/developer', [DeveloperController::class, 'index'])->name('developer.index');
 // Route untuk import dan export data pasar
 Route::post('pasar/import', [PasarController::class, 'import'])->name('pasar.import')->middleware(['auth', 'admin']);
 Route::get('/pasar_export', [PasarController::class, 'export'])->name('pasar.export');

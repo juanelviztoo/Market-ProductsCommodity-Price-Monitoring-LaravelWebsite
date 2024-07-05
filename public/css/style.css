@@ -84,6 +84,30 @@ body {
     align-items: center;
 }
 
+.developer-container {
+    margin-top: 30px;
+}
+
+.developer-card {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+}
+
+.profile-photo {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.developer-card .card-body {
+    padding: 0 1.5rem;
+}
+
+.developer-card h5 {
+    margin-bottom: 0.5rem;
+}
+
 .jumbotron{
     background-image: url('/storage/background/WhitePlainBG2.jpg');
     opacity: 0.9;
