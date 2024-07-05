@@ -11,34 +11,8 @@ use App\Http\Controllers\ProdukKomoditiController;
 
 use App\Http\Controllers\HomeController;
 
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/home', function () {
-    return view('home');
-})->middleware(['auth', 'verified'])->name('home');
-
-// Pasar routes
-Route::get('/pasar', [PasarController::class, 'index'])->name('pasar.index');
-Route::get('/pasar/{pasar}', [PasarController::class, 'show'])->name('pasar.show');
-
-// Kategori routes
-Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
-Route::get('/kategori/{kategori}', [KategoriController::class, 'show'])->name('kategori.show');
-
-// Komoditi routes
-Route::get('/komoditi', [KomoditiController::class, 'index'])->name('komoditi.index');
-Route::get('/komoditi/{komoditi}', [KomoditiController::class, 'show'])->name('komoditi.show');
-
-// Riwayat Harga Komoditi routes
-Route::get('/riwayat_harga_komoditi', [RiwayatHargaKomoditiController::class, 'index'])->name('riwayat_harga_komoditi.index');
-Route::get('/riwayat_harga_komoditi/{riwayat_harga_komoditi}', [RiwayatHargaKomoditiController::class, 'show'])->name('riwayat_harga_komoditi.show');
-
-// Produk Komoditi routes
-Route::get('/produk_komoditi', [ProdukKomoditiController::class, 'index'])->name('produk_komoditi.index');
-Route::get('/produk_komoditi/{produk_komoditi}', [ProdukKomoditiController::class, 'show'])->name('produk_komoditi.show');
+route::get('home', [HomeController::class, 'index'])->name('home');
+route::get('', [HomeController::class, 'index'])->name('home');
 
 // Admin routes
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -82,28 +56,48 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Pasar routes
+    Route::get('/pasar', [PasarController::class, 'index'])->name('pasar.index');
+    Route::get('/pasar/{pasar}', [PasarController::class, 'show'])->name('pasar.show');
+
+    // Kategori routes
+    Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
+    Route::get('/kategori/{kategori}', [KategoriController::class, 'show'])->name('kategori.show');
+
+    // Komoditi routes
+    Route::get('/komoditi', [KomoditiController::class, 'index'])->name('komoditi.index');
+    Route::get('/komoditi/{komoditi}', [KomoditiController::class, 'show'])->name('komoditi.show');
+
+    // Riwayat Harga Komoditi routes
+    Route::get('/riwayat_harga_komoditi', [RiwayatHargaKomoditiController::class, 'index'])->name('riwayat_harga_komoditi.index');
+    Route::get('/riwayat_harga_komoditi/{riwayat_harga_komoditi}', [RiwayatHargaKomoditiController::class, 'show'])->name('riwayat_harga_komoditi.show');
+
+    // Produk Komoditi routes
+    Route::get('/produk_komoditi', [ProdukKomoditiController::class, 'index'])->name('produk_komoditi.index');
+    Route::get('/produk_komoditi/{produk_komoditi}', [ProdukKomoditiController::class, 'show'])->name('produk_komoditi.show');
+    
+    
+    // Route untuk import dan export data pasar
+    Route::post('pasar/import', [PasarController::class, 'import'])->name('pasar.import')->middleware(['auth', 'admin']);
+    Route::get('/pasar_export', [PasarController::class, 'export'])->name('pasar.export');
+    Route::get('/pasar_preview', [PasarController::class, 'preview'])->name('pasar.preview');
+    // Route untuk import dan export data riwayat harga komoditi
+    Route::post('riwayat_harga_komoditi/import', [RiwayatHargaKomoditiController::class, 'import'])->name('riwayat_harga_komoditi.import')->middleware(['auth', 'admin']);
+    Route::get('/harga_komoditi_export', [RiwayatHargaKomoditiController::class, 'export'])->name('riwayat_harga_komoditi.export');
+    Route::get('/harga_komoditi_preview', [RiwayatHargaKomoditiController::class, 'preview'])->name('riwayat_harga_komoditi.peview');
+    // Route untuk import dan export data kategori
+    Route::post('kategori/import', [KategoriController::class, 'import'])->name('kategori.import')->middleware(['auth', 'admin']);
+    Route::get('/kategori_export', [KategoriController::class, 'export'])->name('kategori.export');
+    Route::get('/kategori_preview', [KategoriController::class, 'preview'])->name('kategori.preview');
+    // Route untuk import dan export data produk komoditi
+    Route::post('produk_komoditi/import', [ProdukKomoditiController::class, 'import'])->name('produk_komoditi.import')->middleware(['auth', 'admin']);
+    Route::get('/produk_export', [ProdukKomoditiController::class, 'export'])->name('produk_komoditi.export');
+    Route::get('/produk_preview', [ProdukKomoditiController::class, 'preview'])->name('produk_komoditi.preview');
+    // Route untuk import dan export data komoditi
+    Route::post('komoditi/import', [KomoditiController::class, 'import'])->name('komoditi.import')->middleware(['auth', 'admin']);
+    Route::get('/komoditi_export', [KomoditiController::class, 'export'])->name('komoditi.export');
+    Route::get('/komoditi_preview', [KomoditiController::class, 'preview'])->name('komoditi.preview');
 });
 
 require __DIR__.'/auth.php';
-
-route::get('home', [HomeController::class, 'index'])->name('home');
-// Route untuk import dan export data pasar
-Route::post('pasar/import', [PasarController::class, 'import'])->name('pasar.import')->middleware(['auth', 'admin']);
-Route::get('/pasar_export', [PasarController::class, 'export'])->name('pasar.export');
-Route::get('/pasar_preview', [PasarController::class, 'preview'])->name('pasar.preview');
-// Route untuk import dan export data riwayat harga komoditi
-Route::post('riwayat_harga_komoditi/import', [RiwayatHargaKomoditiController::class, 'import'])->name('riwayat_harga_komoditi.import')->middleware(['auth', 'admin']);
-Route::get('/harga_komoditi_export', [RiwayatHargaKomoditiController::class, 'export'])->name('riwayat_harga_komoditi.export');
-Route::get('/harga_komoditi_preview', [RiwayatHargaKomoditiController::class, 'preview'])->name('riwayat_harga_komoditi.peview');
-// Route untuk import dan export data kategori
-Route::post('kategori/import', [KategoriController::class, 'import'])->name('kategori.import')->middleware(['auth', 'admin']);
-Route::get('/kategori_export', [KategoriController::class, 'export'])->name('kategori.export');
-Route::get('/kategori_preview', [KategoriController::class, 'preview'])->name('kategori.preview');
-// Route untuk import dan export data produk komoditi
-Route::post('produk_komoditi/import', [ProdukKomoditiController::class, 'import'])->name('produk_komoditi.import')->middleware(['auth', 'admin']);
-Route::get('/produk_export', [ProdukKomoditiController::class, 'export'])->name('produk_komoditi.export');
-Route::get('/produk_preview', [ProdukKomoditiController::class, 'preview'])->name('produk_komoditi.preview');
-// Route untuk import dan export data komoditi
-Route::post('komoditi/import', [KomoditiController::class, 'import'])->name('komoditi.import')->middleware(['auth', 'admin']);
-Route::get('/komoditi_export', [KomoditiController::class, 'export'])->name('komoditi.export');
-Route::get('/komoditi_preview', [KomoditiController::class, 'preview'])->name('komoditi.preview');

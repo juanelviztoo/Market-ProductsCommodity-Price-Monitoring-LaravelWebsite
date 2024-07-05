@@ -22,6 +22,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
+                @auth
                 <li class="nav-item {{ Request::routeIs('pasar.index') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('pasar.index') }}">
                         <i class="fas fa-store"></i> Pasar
@@ -47,9 +48,11 @@
                         <i class="fas fa-history"></i> Riwayat Harga Komoditi
                     </a>
                 </li>
+                @endauth
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
+                    @auth
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-user"></i> Hello, {{ Auth::user()->name }}
                     </a>
@@ -64,6 +67,13 @@
                             @csrf
                         </form>
                     </div>
+                    @else
+                    <a href="{{ route('login') }}" class="btn">Log in</a>
+
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="btn">Register</a>
+                    @endif
+                    @endauth
                 </li>
             </ul>
                 <!-- <li class="nav-item">
