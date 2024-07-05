@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kategori;
+use ArielMejiaDev\LarapexCharts\LarapexChart;
 use App\Models\RiwayatHargaKomoditi;
 use App\Models\ProdukKomoditi;
 use Illuminate\Http\Request;
@@ -63,6 +64,23 @@ class HomeController extends Controller
                 $komoditi->statusClass = $statusClass;
                 $komoditi->statusIcon = $statusIcon;
                 $komoditi->satuan = $satuan;
+
+                // Prepare chart data
+                $dates = $komoditi->riwayatHargaKomoditi->pluck('tanggal_update')->toArray();
+                $prices = $komoditi->riwayatHargaKomoditi->pluck('harga')->toArray();
+                $chart = (new LarapexChart)
+                    ->lineChart()
+                    ->setTitle($komoditi->jenis_komoditi)
+                    ->setXAxis($dates)
+                    ->setDataset([
+                        [
+                            'name' => 'Harga',
+                            'data' => $prices
+                        ]
+                    ]);
+
+                $komoditi->chart = $chart->container();
+                $komoditi->chartScript = $chart->script();
             });
         });
 

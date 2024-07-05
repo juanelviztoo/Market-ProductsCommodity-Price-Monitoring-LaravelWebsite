@@ -41,5 +41,20 @@
             @endforeach
         </tbody>
     </table>
+
+    <div class="d-flex justify-content-end">
+        <div>
+            @if(!$viewAll)
+                {{ $kategoris->links('pagination::bootstrap-4') }}
+            @endif
+        </div>
+        <div>
+            @if($viewAll)
+                <a href="{{ route('kategori.index') }}" class="btn btn-info ml-2 mb-3">Lihat Data Lebih Ringkas</a>
+            @else
+                <a href="{{ route('kategori.index', ['view_all' => true]) }}" class="btn btn-info ml-2">Lihat Semua Data</a>
+            @endif
+        </div>
+    </div>
 </div>
 @endsection

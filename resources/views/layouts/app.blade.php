@@ -8,29 +8,44 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     @vite([])
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{{ url('/home') }}">Market Monitor</a>
+        <a class="navbar-brand navbar-brand-divider" href="{{ url('/home') }}">
+            <i class="fas fa-chart-line"></i> Market Monitor
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item {{ Request::routeIs('pasar.index') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('pasar.index') }}">Pasar</a>
+                    <a class="nav-link" href="{{ route('pasar.index') }}">
+                        <i class="fas fa-store"></i> Pasar
+                    </a>
                 </li>
                 <li class="nav-item {{ Request::routeIs('kategori.index') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('kategori.index') }}">Kategori</a>
+                    <a class="nav-link" href="{{ route('kategori.index') }}">
+                        <i class="fas fa-list-alt"></i> Kategori
+                    </a>
                 </li>
                 <li class="nav-item {{ Request::routeIs('komoditi.index') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('komoditi.index') }}">Komoditi</a>
+                    <a class="nav-link" href="{{ route('komoditi.index') }}">
+                        <i class="fas fa-box"></i> Komoditi
+                    </a>
                 </li>
                 <li class="nav-item {{ Request::routeIs('produk_komoditi.index') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('produk_komoditi.index') }}">Produk Komoditi</a>
+                    <a class="nav-link" href="{{ route('produk_komoditi.index') }}">
+                        <i class="fas fa-cubes"></i> Produk Komoditi
+                    </a>
                 </li>
                 <li class="nav-item {{ Request::routeIs('riwayat_harga_komoditi.index') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('riwayat_harga_komoditi.index') }}">Riwayat Harga Komoditi</a>
+                    <a class="nav-link" href="{{ route('riwayat_harga_komoditi.index') }}">
+                        <i class="fas fa-history"></i> Riwayat Harga Komoditi
+                    </a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -62,9 +77,27 @@
                 </li> -->
         </div>
     </nav>
-    <div class="container mt-4">
-        @yield('content')
+
+    <div class="content">
+        @yield('content1')
+        <div class="container mt-4">
+            @yield('content')
+        </div>
     </div>
+
+    <footer>
+        <img src="storage/footer/bpn-logo.png" alt="Web Icon" class="icon-web">
+        <div class="footer-content">
+            <p>UNS Developer - Market Monitor &copy; 2024</p>
+            <div class="social-icons">
+                <a href="https://wa.me/+6282324772644" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.instagram.com/p/C8523HIyUg7/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://github.com/juanelviztoo/Market-ProductsCommodity-Price-Monitoring-LaravelWebsite.git" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+        <img src="storage/footer/kosong.png" alt="Right Icon" class="icon-right">
+    </footer>
+
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

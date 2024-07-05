@@ -16,10 +16,12 @@ class RiwayatHargaKomoditiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $riwayats = RiwayatHargaKomoditi::all();
-        return view('riwayat_harga_komoditi.index', compact('riwayats'));
+        // Check if the request has a 'view_all' parameter
+        $viewAll = $request->has('view_all');
+        $riwayats = $viewAll ? RiwayatHargaKomoditi::all() : RiwayatHargaKomoditi::paginate(5);
+        return view('riwayat_harga_komoditi.index', compact('riwayats', 'viewAll'));
     }
 
     /**
