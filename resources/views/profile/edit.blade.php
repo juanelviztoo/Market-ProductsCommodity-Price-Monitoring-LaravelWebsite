@@ -1,13 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-4">
+<div class="container mt-4 pad">
     <div class="row">
         <div class="col-12">
             <h2 class="mb-4 text-center">{{ __('Profile') }}</h2>
         </div>
     </div>
-
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card mb-4 shadow-sm">
@@ -18,7 +17,6 @@
                     @include('profile.partials.update-profile-information-form')
                 </div>
             </div>
-
             <div class="card mb-4 shadow-sm">
                 <div class="card-header bg-success text-white">
                     {{ __('Update Password') }}
@@ -27,7 +25,6 @@
                     @include('profile.partials.update-password-form')
                 </div>
             </div>
-
             <div class="card shadow-sm">
                 <div class="card-header bg-danger text-white">
                     {{ __('Delete Account') }}
@@ -58,7 +55,7 @@
         font-weight: 500;
         margin-bottom: 0.5rem;
     }
-    input {
+    .form-control {
         display: block;
         width: 100%;
         padding: 0.75rem;
@@ -67,10 +64,13 @@
         border-radius: 0.25rem;
         font-size: 1rem;
     }
-    button {
+    .btn {
         padding: 0.75rem 1.25rem;
         font-size: 1rem;
         border-radius: 0.25rem;
+    }
+    .pad {
+        padding-bottom: 100px;
     }
 </style>
 @endpush
