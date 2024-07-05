@@ -30,13 +30,13 @@
         <tbody>
             @foreach($pasars as $pasar)
                 <tr>
-                    <td>{{ $pasar->provinsi }}</td>
-                    <td>{{ $pasar->kota }}</td>
-                    <td>{{ $pasar->kode_kota }}</td>
-                    <td>{{ $pasar->nama_pasar }}</td>
-                    <td><img src="{{ asset('storage/gambar_pasar/' . $pasar->gambar_pasar) }}" alt="{{ $pasar->nama_pasar }}" width="100"></td>
+                    <td class="align-middle">{{ $pasar->provinsi }}</td>
+                    <td class="align-middle">{{ $pasar->kota }}</td>
+                    <td class="align-middle">{{ $pasar->kode_kota }}</td>
+                    <td class="align-middle">{{ $pasar->nama_pasar }}</td>
+                    <td class="text-center align-middle"><img src="{{ asset('storage/gambar_pasar/' . $pasar->gambar_pasar) }}" alt="{{ $pasar->nama_pasar }}" width="100"></td>
                     @if(Auth::user() && Auth::user()->usertype == 'admin')
-                    <td>
+                    <td class="text-center align-middle">
                         <a href="{{ route('pasar.edit', $pasar->id) }}" class="btn btn-warning">Edit</a>
                         <form action="{{ route('pasar.destroy', $pasar->id) }}" method="POST" style="display:inline;">
                             @csrf

@@ -26,9 +26,9 @@
         <tbody>
             @foreach($kategoris as $kategori)
                 <tr>
-                    <td>{{ $kategori->nama_kategori }}</td>
+                    <td class="align-middle">{{ $kategori->nama_kategori }}</td>
                     @if(Auth::user() && Auth::user()->usertype == 'admin')
-                    <td>
+                    <td class="text-center align-middle">
                         <a href="{{ route('kategori.edit', $kategori->id) }}" class="btn btn-warning">Edit</a>
                         <form action="{{ route('kategori.destroy', $kategori->id) }}" method="POST" style="display:inline;">
                             @csrf

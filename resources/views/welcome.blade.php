@@ -94,17 +94,17 @@
                 @auth
                     <a href="{{ url('/dashboard') }}" class="btn btn-primary btn-custom">Dashboard</a>
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-primary btn-custom mr-2">Log in</a>
+                    <a href="{{ route('login') }}" class="btn btn-outline-success btn-custom mr-2">Login</a>
 
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="btn btn-secondary btn-custom">Register</a>
+                        <a href="{{ route('register') }}" class="btn btn-outline-info btn-custom">Register</a>
                     @endif
                 @endauth
             @endif
-         </div>
+        </div>
         <div class="button-container mt-3">  
             @if (Route::has('login'))
-            <a href="{{ url('/home') }}" class="btn btn-primary btn-custom">Log In as Guest</a>
+            <a href="{{ url('/home') }}" class="btn btn-outline-warning btn-custom">Log In as Guest</a>
             @endif
         </div>
     </div>

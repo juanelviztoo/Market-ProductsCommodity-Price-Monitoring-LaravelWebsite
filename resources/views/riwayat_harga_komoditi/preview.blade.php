@@ -25,12 +25,12 @@
                     <tbody>
                     @foreach($riwayats as $riwayat)
                         <tr>
-                            <td>{{ $riwayat->pasar->nama_pasar }}</td>
-                            <td>{{ $riwayat->komoditi->jenis_komoditi }}</td>
-                            <td>{{ optional($riwayat->produkKomoditi)->nama_produk ?? 'N/A' }}</td>
-                            <td>{{ $riwayat->tanggal_update }}</td>
-                            <td>Rp{{ number_format($riwayat->harga, 2, ',', '.') }} {{ optional($riwayat->produkKomoditi)->satuan ?? '' }}</td>
-                            <td>
+                            <td class="align-middle">{{ $riwayat->pasar->nama_pasar }}</td>
+                            <td class="align-middle">{{ $riwayat->komoditi->jenis_komoditi }}</td>
+                            <td class="align-middle">{{ optional($riwayat->produkKomoditi)->nama_produk ?? 'N/A' }}</td>
+                            <td class="align-middle">{{ $riwayat->tanggal_update }}</td>
+                            <td class="align-middle">Rp{{ number_format($riwayat->harga, 2, ',', '.') }} {{ optional($riwayat->produkKomoditi)->satuan ?? '' }}</td>
+                            <td class="align-middle">
                                 @if($riwayat->status == 'Harga Naik')
                                     <i class="fas fa-circle text-danger"></i> Harga Naik
                                 @elseif($riwayat->status == 'Harga Tetap')

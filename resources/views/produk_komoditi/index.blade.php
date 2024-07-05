@@ -29,16 +29,16 @@
         <tbody>
             @foreach($produks as $produk)
             <tr>
-                <td>{{ $produk->komoditi->jenis_komoditi }}</td>
-                <td>{{ $produk->nama_produk }}</td>
-                <td>
+                <td class="align-middle">{{ $produk->komoditi->jenis_komoditi }}</td>
+                <td class="align-middle">{{ $produk->nama_produk }}</td>
+                <td class="text-center align-middle">
                     @if($produk->gambar_produk)
                     <img src="{{ asset('storage/gambar_produk/'.$produk->gambar_produk) }}" alt="{{ $produk->nama_produk }}" width="100">
                     @endif
                 </td>
-                <td>{{ $produk->satuan }}</td>
+                <td class="align-middle">{{ $produk->satuan }}</td>
                 @if(Auth::user() && Auth::user()->usertype == 'admin')
-                <td>
+                <td class="text-center align-middle">
                     <a href="{{ route('produk_komoditi.edit', $produk->id) }}" class="btn btn-warning">Edit</a>
                     <form action="{{ route('produk_komoditi.destroy', $produk->id) }}" method="POST" class="d-inline">
                         @csrf

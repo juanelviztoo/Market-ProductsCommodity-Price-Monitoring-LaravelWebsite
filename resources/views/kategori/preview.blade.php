@@ -20,7 +20,7 @@
                     <tbody>
                         @foreach($kategoris as $kategori)
                             <tr>
-                                <td>{{ $kategori->nama_kategori }}</td>
+                                <td class="align-middle">{{ $kategori->nama_kategori }}</td>
                             </tr>
                         @endforeach
                     </tbody>

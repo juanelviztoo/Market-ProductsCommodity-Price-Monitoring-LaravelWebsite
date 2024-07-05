@@ -28,11 +28,11 @@
         <tbody>
             @foreach($komoditis as $komoditi)
                 <tr>
-                    <td>{{ $komoditi->kategori->nama_kategori }}</td>
-                    <td>{{ $komoditi->jenis_komoditi }}</td>
-                    <td><img src="{{ asset('storage/gambar_komoditi/' . $komoditi->gambar_komoditi) }}" alt="{{ $komoditi->jenis_komoditi }}" width="100"></td>
+                    <td class="align-middle">{{ $komoditi->kategori->nama_kategori }}</td>
+                    <td class="align-middle">{{ $komoditi->jenis_komoditi }}</td>
+                    <td class="text-center align-middle"><img src="{{ asset('storage/gambar_komoditi/' . $komoditi->gambar_komoditi) }}" alt="{{ $komoditi->jenis_komoditi }}" width="100"></td>
                     @if(Auth::user() && Auth::user()->usertype == 'admin')
-                    <td>
+                    <td class="text-center align-middle">
                         <a href="{{ route('komoditi.edit', $komoditi->id) }}" class="btn btn-warning">Edit</a>
                         <form action="{{ route('komoditi.destroy', $komoditi->id) }}" method="POST" style="display:inline;">
                             @csrf
