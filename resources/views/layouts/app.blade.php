@@ -59,7 +59,7 @@
                 <li class="nav-item dropdown">
                     @auth
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-user"></i> Hello, {{ Auth::user()->name }}
+                        <i class="fa fa-user"></i> Hello, {{ ucfirst(Auth::user()->usertype) }} {{ Auth::user()->name }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ route('profile.edit') }}">
