@@ -12,8 +12,11 @@ use App\Http\Controllers\ProdukKomoditiController;
 use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\HomeController;
 
+Route::get('/', function () {
+    return view('welcome');
+})->name('welcome');
+
 route::get('home', [HomeController::class, 'index'])->name('home');
-route::get('', [HomeController::class, 'index'])->name('home');
 
 // Route untuk Developer Profile Page
 Route::get('/developer', [DeveloperController::class, 'index'])->name('developer.index');
