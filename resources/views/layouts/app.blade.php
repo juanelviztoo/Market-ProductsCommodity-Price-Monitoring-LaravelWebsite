@@ -49,6 +49,11 @@
                     </a>
                 </li>
                 @endauth
+                <li class="nav-item {{ Request::routeIs('developer.index') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('developer.index') }}">
+                        <i class="fas fa-user-cog"></i> Developer Profile
+                    </a>
+                </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
