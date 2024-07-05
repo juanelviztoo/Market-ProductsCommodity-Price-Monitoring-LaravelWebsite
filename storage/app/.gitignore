@@ -1,3 +1,6 @@
 *
 !public/
+!public/background/
+!public/footer/
+!public/foto_pengembang/
 !.gitignore
