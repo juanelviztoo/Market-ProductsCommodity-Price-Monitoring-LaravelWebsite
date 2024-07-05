@@ -27,7 +27,7 @@
             width: 100%;
             height: 100vh;
             object-fit: cover;
-            opacity: 0.5;
+            opacity: 0.3;
         }
 
         .content {
@@ -104,7 +104,7 @@
         </div>
         <div class="button-container mt-3">  
             @if (Route::has('login'))
-            <a href="{{ url('/home') }}" class="btn btn-outline-warning btn-custom">Log In as Guest</a>
+            <a href="{{ url('/home') }}" class="btn btn-outline-warning btn-custom">Login as Guest</a>
             @endif
         </div>
     </div>
