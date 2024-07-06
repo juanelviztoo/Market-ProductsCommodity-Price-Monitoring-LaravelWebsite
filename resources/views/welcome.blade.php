@@ -92,20 +92,18 @@
         <div class="button-container">
             @if (Route::has('login'))
                 @auth
-                    <a href="{{ url('/dashboard') }}" class="btn btn-primary btn-custom">Dashboard</a>
+                    <a href="{{ url('/home') }}" class="btn btn-primary btn-custom">Dashboard</a>
                 @else
                     <a href="{{ route('login') }}" class="btn btn-outline-success btn-custom mr-2">Login</a>
 
                     @if (Route::has('register'))
                         <a href="{{ route('register') }}" class="btn btn-outline-info btn-custom">Register</a>
                     @endif
-                @endauth
-            @endif
-        </div>
-        <div class="button-container mt-3">  
-            @if (Route::has('login'))
-            <a href="{{ url('/home') }}" class="btn btn-outline-warning btn-custom">Login as Guest</a>
-            @endif
+                </div>
+                <div class="button-container mt-3">  
+                    <a href="{{ url('/home') }}" class="btn btn-outline-warning btn-custom">Login as Guest</a>
+                    @endauth
+                @endif
         </div>
     </div>
 
