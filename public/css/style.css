@@ -280,7 +280,7 @@ footer {
 footer .icon-web {
     grid-column: 1;
     margin-left: 20px;
-    width: 125px; /* Sesuaikan ukuran sesuai kebutuhan */
+    width: 100px; /* Sesuaikan ukuran sesuai kebutuhan */
     height: auto;
 }
 
@@ -306,7 +306,7 @@ footer .social-icons a:hover {
 footer .icon-right {
     grid-column: 3; /* Atur agar gambar di sebelah kanan */
     margin-right: 20px;
-    width: 125px; /* Sesuaikan ukuran sesuai kebutuhan */
+    width: 100px; /* Sesuaikan ukuran sesuai kebutuhan */
     height: auto;
 }
 

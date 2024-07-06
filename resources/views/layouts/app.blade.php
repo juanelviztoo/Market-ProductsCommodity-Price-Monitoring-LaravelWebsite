@@ -54,6 +54,11 @@
                         <i class="fas fa-user-cog"></i> Developer Profile
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://t.me/Monitor_Komoditi_Bot" target="_blank">
+                        <i class="fab fa-telegram-plane"></i> Telegram Bot Chat
+                    </a>
+                </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
@@ -101,7 +106,7 @@
     </div>
 
     <footer>
-        <img src="storage/footer/bpn-logo.png" alt="Web Icon" class="icon-web">
+        <img src="storage/footer/logo-uns.png" alt="Web Icon" class="icon-web">
         <div class="footer-content">
             <p>UNS Developer - Market Monitor &copy; 2024</p>
             <div class="social-icons">
