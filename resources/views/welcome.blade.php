@@ -92,7 +92,7 @@
         <div class="button-container">
             @if (Route::has('login'))
                 @auth
-                    <a href="{{ url('/dashboard') }}" class="btn btn-primary btn-custom">Dashboard</a>
+                    <a href="{{ url('/home') }}" class="btn btn-primary btn-custom">Dashboard</a>
                 @else
                     <a href="{{ route('login') }}" class="btn btn-outline-success btn-custom mr-2">Login</a>
 
