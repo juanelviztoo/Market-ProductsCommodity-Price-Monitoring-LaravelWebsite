@@ -99,14 +99,12 @@
                     @if (Route::has('register'))
                         <a href="{{ route('register') }}" class="btn btn-outline-info btn-custom">Register</a>
                     @endif
+                </div>
+                <div class="button-container mt-3">  
+                    <a href="{{ url('/home') }}" class="btn btn-outline-warning btn-custom">Login as Guest (Visitor)</a>
+                </div>
                 @endauth
             @endif
-        </div>
-        <div class="button-container mt-3">  
-            @if (Route::has('login'))
-            <a href="{{ url('/home') }}" class="btn btn-outline-warning btn-custom">Login as Guest (Visitor)</a>
-            @endif
-        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
