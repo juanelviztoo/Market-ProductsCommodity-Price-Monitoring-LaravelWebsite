@@ -150,10 +150,13 @@
                     @foreach($produkKomoditis as $produkKomoditi)
                         <div class="col-md-4 mb-4">
                             <div class="card card-komoditi radius">
-                                <div class="card-front">
+                                <div class="card-front p-3">
                                     <h5 class="card-title">{{ $produkKomoditi->nama_produk }}</h5>
                                     <p class="card-text">
-                                        Harga Terbaru: Rp{{ number_format($produkKomoditi->latestPrice, 2, ',', '.') }}
+                                        <!-- Harga Terbaru: Rp{{ number_format($produkKomoditi->latestPrice, 2, ',', '.') }} -->
+                                        Harga Tertinggi: Rp{{ number_format($produkKomoditi->highestPrice, 2, ',', '.') }}
+                                        <br>
+                                        Harga Terendah: Rp{{ number_format($produkKomoditi->lowestPrice, 2, ',', '.') }}
                                     </p>
                                     <p>
                                         <span class="{{ $produkKomoditi->statusClass }}">
@@ -164,7 +167,7 @@
                                         </span>
                                     </p>
                                 </div>
-                                <div class="card-back">
+                                <!-- <div class="card-back">
                                     <h5 class="card-title">Detail Harga</h5>
                                     <p class="card-text">
                                         Harga Tertinggi: Rp{{ number_format($produkKomoditi->highestPrice, 2, ',', '.') }}
@@ -177,7 +180,7 @@
                                         <br>
                                         Persentase Perubahan: {{ $produkKomoditi->percentageChange }}%
                                     </p>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     @endforeach
