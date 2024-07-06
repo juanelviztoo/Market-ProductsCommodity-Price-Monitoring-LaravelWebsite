@@ -63,7 +63,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ route('profile.edit') }}">
-                            <i class="fa fa-cog"></i> Profile User
+                            <i class="fa fa-cog"></i> Setting Profile
                         </a>
                         <a class="dropdown-item" href="#" onclick="confirmLogout(event)">
                             <i class="fa fa-sign-out-alt"></i> Logout
