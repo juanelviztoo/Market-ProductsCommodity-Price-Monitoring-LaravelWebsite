@@ -28,6 +28,35 @@
         .bold-label {
             font-weight: bold; /* Make label bold */
         }
+        .card-komoditi {
+            perspective: 1000px;
+        }
+        .card-front, .card-back {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+        .card.flipped .card-front {
+            transform: rotateY(180deg);
+        }
+        .card.flipped .card-back {
+            transform: rotateY(0);
+        }
+        .card-front, .card-back {
+            backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(-180deg);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            background: white;
+            background-image: url('/storage/background/WhitePlainBG2.jpg');
+        }
     </style>
 
     <header style="background-image: url('storage/background/HD-background3.jpg');">
@@ -88,8 +117,19 @@
                                             </div>
                                         </div>
                                         <div class="card-back">
-                                            {!! $komoditi->chart !!}
-                                            {!! $komoditi->chartScript !!}
+                                            @foreach($komoditi->produkKomoditi as $produkKomoditi)
+                                                <h5>{{ $produkKomoditi->nama_produk }}</h5>
+                                                <p>Recent Price Averages: Rp{{ number_format($produkKomoditi->latestAveragePrice ?? 0, 2, ',', '.') }} {{ $komoditi->satuan }}</p>
+                                                <p>
+                                                    <span class="{{ $produkKomoditi->statusClass }}">
+                                                        <i class="{{ $produkKomoditi->statusIcon }}"></i> {{ $produkKomoditi->status }}
+                                                    </span>
+                                                    <span class="{{ $produkKomoditi->statusClass }}">
+                                                        <i class="{{ $produkKomoditi->statusIcon }}"></i> Rp {{ number_format($produkKomoditi->priceDiff, 0, ',', '.') }} ({{ $produkKomoditi->percentageChange }}%)
+                                                    </span>
+                                                </p>
+                                                <hr>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -100,32 +140,53 @@
             </div>
         </div>
     </div>
-    <div class="container">
+
+    <!-- Section baru untuk Perkembangan Harga Produk Komoditi Nasional QUERY2 -->
+    <div class="container mt-2">
         <h2 class="main-title">Perkembangan Harga Produk Komoditi Nasional</h2>
-            <div class="empty-card card shadow radius">
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="empty-select">Jenis Data Panel Kosong</label>
-                        <select id="empty-select" class="form-control radius">
-                            <option value="semua">Semua</option>
-                            <!-- Tambahkan opsi sesuai kebutuhan -->
-                        </select>
-                    </div>
-                    <div class="row">
-                        <!-- Tambahkan card-card seperti yang ada di kategori komoditi -->
-                        <!-- Contoh card kosong -->
+        <div class="komoditi-card card shadow radius">
+            <div class="card-body">
+                <div class="row">
+                    @foreach($produkKomoditis as $produkKomoditi)
                         <div class="col-md-4 mb-4">
                             <div class="card card-komoditi radius">
-                                <div class="card-body">
-                                    <h5 class="card-title">Judul Kosong</h5>
-                                    <p class="card-text">Isi kosong untuk card.</p>
+                                <div class="card-front p-3">
+                                    <h5 class="card-title">{{ $produkKomoditi->nama_produk }}</h5>
+                                    <p class="card-text">
+                                        <!-- Harga Terbaru: Rp{{ number_format($produkKomoditi->latestPrice, 2, ',', '.') }} -->
+                                        Harga Tertinggi: Rp{{ number_format($produkKomoditi->highestPrice, 2, ',', '.') }}
+                                        <br>
+                                        Harga Terendah: Rp{{ number_format($produkKomoditi->lowestPrice, 2, ',', '.') }}
+                                    </p>
+                                    <p>
+                                        <span class="{{ $produkKomoditi->statusClass }}">
+                                            <i class="{{ $produkKomoditi->statusIcon }}"></i> {{ $produkKomoditi->status }}
+                                        </span>
+                                        <span class="{{ $produkKomoditi->statusClass }}">
+                                            <i class="{{ $produkKomoditi->statusIcon }}"></i> Rp {{ number_format($produkKomoditi->priceDiff, 0, ',', '.') }} ({{ $produkKomoditi->percentageChange }}%)
+                                        </span>
+                                    </p>
                                 </div>
+                                <!-- <div class="card-back">
+                                    <h5 class="card-title">Detail Harga</h5>
+                                    <p class="card-text">
+                                        Harga Tertinggi: Rp{{ number_format($produkKomoditi->highestPrice, 2, ',', '.') }}
+                                        <br>
+                                        Harga Terendah: Rp{{ number_format($produkKomoditi->lowestPrice, 2, ',', '.') }}
+                                        <br>
+                                        Harga Terbaru: Rp{{ number_format($produkKomoditi->latestPrice, 2, ',', '.') }}
+                                        <br>
+                                        Selisih: Rp{{ number_format($produkKomoditi->priceDiff, 0, ',', '.') }}
+                                        <br>
+                                        Persentase Perubahan: {{ $produkKomoditi->percentageChange }}%
+                                    </p>
+                                </div> -->
                             </div>
                         </div>
-                        <!-- Tambahkan card-card lainnya sesuai kebutuhan -->
-                    </div>
+                    @endforeach
                 </div>
             </div>
+        </div>
     </div>
 </div>
 

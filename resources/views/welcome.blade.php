@@ -41,7 +41,7 @@
         }
 
         .content h1 {
-            font-size: 7rem;
+            font-size: 4rem;
             margin-bottom: 20px;
             font-family: 'Montserrat', sans-serif;
         }
@@ -88,7 +88,7 @@
     </div>
     
     <div class="content">
-        <h1>Home Page</h1>
+        <h1>Commodities Market Price Monitor</h1>
         <div class="button-container">
             @if (Route::has('login'))
                 @auth
@@ -104,7 +104,7 @@
         </div>
         <div class="button-container mt-3">  
             @if (Route::has('login'))
-            <a href="{{ url('/home') }}" class="btn btn-outline-warning btn-custom">Login as Guest</a>
+            <a href="{{ url('/home') }}" class="btn btn-outline-warning btn-custom">Login as Guest (Visitor)</a>
             @endif
         </div>
     </div>
