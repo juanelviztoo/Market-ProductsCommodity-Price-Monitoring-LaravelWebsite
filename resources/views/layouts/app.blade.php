@@ -256,6 +256,11 @@
             font-family: 'Montserrat', sans-serif;
         }
 
+        .komoditi-card {
+            margin-bottom: 30px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
         .empty-card {
             margin-top: 30px;
             padding: 20px;
@@ -333,8 +338,6 @@
         .navbar-nav .nav-item {
             margin-right: 5px; /* Jarak spasi di antara setiap menu navbar */
         }
-
-
 
         .card-komoditi .card-front,
         .card-komoditi .card-back {

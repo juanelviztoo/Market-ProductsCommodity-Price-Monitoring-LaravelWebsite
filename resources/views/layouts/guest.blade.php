@@ -23,7 +23,7 @@
                 background-attachment: fixed;
             }
             .overlay {
-                background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black overlay */
+                background-color: rgba(0, 0, 0, 0.5); 
             }
         </style>
     </head>
