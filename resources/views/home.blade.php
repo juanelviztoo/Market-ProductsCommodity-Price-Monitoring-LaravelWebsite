@@ -153,12 +153,12 @@
                             <div class="card card-komoditi radius">
                                 <div class="card-front p-3">
                                     <img src="{{ asset('storage/gambar_produk/' . $produkKomoditi->gambar_produk) }}" class="card-img-top" alt="{{ $produkKomoditi->nama_produk }}">
-                                    <h5 class="card-title mt-2">{{ $produkKomoditi->nama_produk }}</h5>
-                                    <p class="card-text">
-                                        Highest Price: Rp{{ number_format($produkKomoditi->highestPrice, 2, ',', '.') }}
+                                    <h4 class="card-title mt-3 mb-4">{{ $produkKomoditi->nama_produk }}</h4>
+                                    <h5 class="card-text">
+                                    <span class="badge badge-danger mb-2">Highest Price: Rp{{ number_format($produkKomoditi->highestPrice, 2, ',', '.') }} {{ $produkKomoditi->satuan }}</span>
                                         <br>
-                                        Lowest Price: Rp{{ number_format($produkKomoditi->lowestPrice, 2, ',', '.') }}
-                                    </p>
+                                        <span class="badge badge-success">Lowest Price: Rp{{ number_format($produkKomoditi->lowestPrice, 2, ',', '.') }} {{ $produkKomoditi->satuan }}</span>
+                                    </h5>
                                 </div>
                                 <div class="card-back">
                                     @foreach($produkKomoditi->groupedPrices as $pasarId => $prices)
@@ -184,7 +184,7 @@
                                             }
                                         @endphp
                                         <h5>{{ $prices->first()->pasar->nama_pasar }}</h5>
-                                        <p>Current Price: Rp{{ number_format($latestPrice, 2, ',', '.') }}</p>
+                                        <p>Current Price: Rp{{ number_format($latestPrice, 2, ',', '.') }} {{ $produkKomoditi->satuan }}</p>
                                         <p>
                                             <span class="{{ $statusClass }}">
                                                 <i class="{{ $statusIcon }}"></i> {{ $status }}
