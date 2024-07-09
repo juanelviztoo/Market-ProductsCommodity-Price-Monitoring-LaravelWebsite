@@ -69,6 +69,7 @@
     </header>
 </div>
 <div class="after-parallax">
+    <!-- Section untuk Perkembangan Harga Rata-Rata Komoditi Nasional (QUERY1) -->
     <div class="container">
         <h2 class="main-title">Perkembangan Harga Rata-Rata Komoditi Nasional</h2>
         <div class="card kategori-card shadow radius">
@@ -141,7 +142,7 @@
         </div>
     </div>
 
-    <!-- Section baru untuk Perkembangan Harga Produk Komoditi Nasional QUERY2 -->
+    <!-- Section baru untuk Perkembangan Harga Produk Komoditi Nasional (QUERY2) -->
     <div class="container mt-2">
         <h2 class="main-title">Perkembangan Harga Produk Komoditi Nasional</h2>
         <div class="komoditi-card card shadow radius">
@@ -151,36 +152,50 @@
                         <div class="col-md-4 mb-4">
                             <div class="card card-komoditi radius">
                                 <div class="card-front p-3">
-                                    <h5 class="card-title">{{ $produkKomoditi->nama_produk }}</h5>
+                                    <img src="{{ asset('storage/gambar_produk/' . $produkKomoditi->gambar_produk) }}" class="card-img-top" alt="{{ $produkKomoditi->nama_produk }}">
+                                    <h5 class="card-title mt-2">{{ $produkKomoditi->nama_produk }}</h5>
                                     <p class="card-text">
-                                        <!-- Harga Terbaru: Rp{{ number_format($produkKomoditi->latestPrice, 2, ',', '.') }} -->
-                                        Harga Tertinggi: Rp{{ number_format($produkKomoditi->highestPrice, 2, ',', '.') }}
+                                        Highest Price: Rp{{ number_format($produkKomoditi->highestPrice, 2, ',', '.') }}
                                         <br>
-                                        Harga Terendah: Rp{{ number_format($produkKomoditi->lowestPrice, 2, ',', '.') }}
-                                    </p>
-                                    <p>
-                                        <span class="{{ $produkKomoditi->statusClass }}">
-                                            <i class="{{ $produkKomoditi->statusIcon }}"></i> {{ $produkKomoditi->status }}
-                                        </span>
-                                        <span class="{{ $produkKomoditi->statusClass }}">
-                                            <i class="{{ $produkKomoditi->statusIcon }}"></i> Rp {{ number_format($produkKomoditi->priceDiff, 0, ',', '.') }} ({{ $produkKomoditi->percentageChange }}%)
-                                        </span>
+                                        Lowest Price: Rp{{ number_format($produkKomoditi->lowestPrice, 2, ',', '.') }}
                                     </p>
                                 </div>
-                                <!-- <div class="card-back">
-                                    <h5 class="card-title">Detail Harga</h5>
-                                    <p class="card-text">
-                                        Harga Tertinggi: Rp{{ number_format($produkKomoditi->highestPrice, 2, ',', '.') }}
-                                        <br>
-                                        Harga Terendah: Rp{{ number_format($produkKomoditi->lowestPrice, 2, ',', '.') }}
-                                        <br>
-                                        Harga Terbaru: Rp{{ number_format($produkKomoditi->latestPrice, 2, ',', '.') }}
-                                        <br>
-                                        Selisih: Rp{{ number_format($produkKomoditi->priceDiff, 0, ',', '.') }}
-                                        <br>
-                                        Persentase Perubahan: {{ $produkKomoditi->percentageChange }}%
-                                    </p>
-                                </div> -->
+                                <div class="card-back">
+                                    @foreach($produkKomoditi->groupedPrices as $pasarId => $prices)
+                                        @php
+                                            $latestPrice = $prices->sortByDesc('tanggal_update')->first()->harga;
+                                            $previousPrice = $prices->sortByDesc('tanggal_update')->skip(1)->first()->harga ?? null;
+                                            $priceDiff = $latestPrice - $previousPrice;
+                                            $percentageChange = $previousPrice ? ($priceDiff / $previousPrice) * 100 : 0;
+                                            $percentageChange = round($percentageChange, 2);
+
+                                            if ($priceDiff > 0) {
+                                                $status = 'Harga Naik';
+                                                $statusClass = 'badge badge-danger';
+                                                $statusIcon = 'fas fa-arrow-up';
+                                            } elseif ($priceDiff < 0) {
+                                                $status = 'Harga Turun';
+                                                $statusClass = 'badge badge-success';
+                                                $statusIcon = 'fas fa-arrow-down';
+                                            } else {
+                                                $status = 'Harga Tetap';
+                                                $statusClass = 'badge badge-warning';
+                                                $statusIcon = 'fas fa-star';
+                                            }
+                                        @endphp
+                                        <h5>{{ $prices->first()->pasar->nama_pasar }}</h5>
+                                        <p>Current Price: Rp{{ number_format($latestPrice, 2, ',', '.') }}</p>
+                                        <p>
+                                            <span class="{{ $statusClass }}">
+                                                <i class="{{ $statusIcon }}"></i> {{ $status }}
+                                            </span>
+                                            <span class="{{ $statusClass }}">
+                                                <i class="{{ $statusIcon }}"></i> Rp {{ number_format($priceDiff, 0, ',', '.') }} ({{ $percentageChange }}%)
+                                            </span>
+                                        </p>
+                                        <hr>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     @endforeach
@@ -188,7 +203,6 @@
             </div>
         </div>
     </div>
-</div>
 
 <script>
     document.querySelectorAll('.card-komoditi').forEach(card => {

@@ -8,6 +8,7 @@ use App\Models\RiwayatHargaKomoditi;
 use App\Models\ProdukKomoditi;
 use App\Models\Pasar;
 use Illuminate\Http\Request;
+use DB;
 
 class HomeController extends Controller
 {
@@ -103,28 +104,48 @@ class HomeController extends Controller
             });
         });
 
-        // QUERY 2
+        // QUERY 2: Fetching product commodities and their price history
         $produkKomoditis = ProdukKomoditi::with(['riwayatHargaKomoditi.pasar'])->get();
 
         // Prepare data for view
         $produkKomoditis->each(function($produkKomoditi) {
-            // Group prices by market for product komoditi
+            // Group prices by market for each product commodity
             $groupedPrices = $produkKomoditi->riwayatHargaKomoditi->groupBy('pasar_id');
 
-            // Calculate highest, lowest, and latest prices for product komoditi
-            $latestPrices = $groupedPrices->map(fn($prices) => $prices->first()->harga);
-            $highestPrice = $latestPrices->max();
-            $lowestPrice = $latestPrices->min();
+            // Initialize highest and lowest price variables
+            $highestPrice = null;
+            $lowestPrice = null;
+
+            // Loop through grouped prices to find the highest and lowest prices across all markets
+            foreach ($groupedPrices as $prices) {
+                $prices->each(function ($price) use (&$highestPrice, &$lowestPrice) {
+                    if (is_null($highestPrice) || $price->harga > $highestPrice) {
+                        $highestPrice = $price->harga;
+                    }
+                    if (is_null($lowestPrice) || $price->harga < $lowestPrice) {
+                        $lowestPrice = $price->harga;
+                    }
+                });
+            }
+
+            // Get the latest and previous prices for each market, sorted by date
+            $latestPrices = $groupedPrices->map(function($prices) {
+                return $prices->sortByDesc('tanggal_update')->first()->harga;
+            });
+            $previousPrices = $groupedPrices->map(function($prices) {
+                return $prices->sortByDesc('tanggal_update')->skip(1)->first()->harga ?? null;
+            })->filter();
+
+            // Calculate latest and previous average prices across all markets
             $latestPrice = $latestPrices->first();
+            $previousPrice = $previousPrices->first();
 
             // Calculate price difference and percentage change
-            $previousPrices = $groupedPrices->map(fn($prices) => $prices->skip(1)->first()->harga ?? null)->filter();
-            $previousPrice = $previousPrices->first();
             $priceDiff = $latestPrice - $previousPrice;
             $percentageChange = $previousPrice ? ($priceDiff / $previousPrice) * 100 : 0;
             $percentageChange = round($percentageChange, 2);
 
-            // Determine status for product komoditi
+            // Determine status for product commodity
             if ($priceDiff > 0) {
                 $status = 'Harga Naik';
                 $statusClass = 'badge badge-danger';
@@ -139,7 +160,7 @@ class HomeController extends Controller
                 $statusIcon = 'fas fa-star';
             }
 
-            // Store calculated data for product komoditi
+            // Store calculated data for product commodity
             $produkKomoditi->highestPrice = $highestPrice;
             $produkKomoditi->lowestPrice = $lowestPrice;
             $produkKomoditi->latestPrice = $latestPrice;
